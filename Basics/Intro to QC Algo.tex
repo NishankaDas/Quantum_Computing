@@ -1,0 +1,853 @@
+\documentclass[12pt]{beamer}
+\usepackage{braket}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\definecolor{myblue}{RGB}{0,102,204}
+
+\usetheme{Madrid}
+
+\setbeamercolor{structure}{fg=myblue}
+
+\title{Quantum Computing}
+
+\subtitle{An Introduction to Quantum Algorithm}
+\author{Nishanka Das \and Debanjan Kola}
+\date{December 2023}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+    \frametitle{Quantum Algorithm - Query Model}
+
+    \textbf{Query Model:}
+    \begin{enumerate}
+        \item \textbf{Standard Computation:}
+            \begin{itemize}
+                \item Input $\rightarrow$ \tikz[baseline=-0.5ex]\node[fill=myblue,anchor=base,rounded corners=2pt,text=white]{Computation}; $\rightarrow$ Output
+            \end{itemize}
+
+            The entire input is provided to the computation, most typically as a string of bits with nothing hidden from the computation.
+  
+
+
+
+    \frametitle{Quantum Algorithm - Query Model}
+    \item\textbf{Query model of computation:}
+    \begin{center}
+        \includegraphics[width=4cm]{Q123.png}
+    \end{center}
+\end{enumerate}
+\end{frame}
+\begin{frame}
+In the query model of computation , the input is made available in the form of a function , which the computation access by making queries . The input to query problems is represented by a function : $f: \Sigma^n \rightarrow \Sigma^m$ where $n, m \in \mathbb{Z}^+$ and $\Sigma = \{0, 1\}$
+\begin{itemize}
+\item\textbf{Queries :}
+\end{itemize}
+To say that a computation makes a query means that it evalues the function f once : $x \in \Sigma^m $ is made available to the computation .\\ 
+\par
+The efficiency of query algo is measured by counting the number of queries to the input they required .
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item\textbf{Example of query problems :}
+\end{itemize}
+ \begin{enumerate}
+\item\textbf{OR :}
+
+\begin{itemize}
+\item\textbf{Input :}$f: \Sigma^n \rightarrow \Sigma$
+\item\textbf{Output :} \[
+\begin{cases}
+    1 & \text{if there exists a string } x \in \Sigma^n \text{ such that } f(x) = 1 \\
+    0 & \text{if there is no such string}
+\end{cases}
+\]
+\end{itemize}
+
+\item\textbf{Parity :}
+\begin{itemize}
+\item\textbf{Input :}$f: \Sigma^n \rightarrow \Sigma$
+\item\textbf{Output :} \[
+\begin{cases}
+    0 & \text{if }f(x) = 1 \text{ for even number of strings } x \in \Sigma^n  \\
+    1 & \text{if }f(x) = 1 \text{ for odd number of strings } x \in \Sigma^n
+\end{cases}
+\]
+\end{itemize}
+\end{enumerate}
+\end{frame}
+\begin{frame}[allowframebreaks]
+ \begin{enumerate}
+\setcounter{enumi}{2}
+\item\textbf{Minimum:}
+\begin{itemize}
+\item\textbf{Input :}$f: \Sigma^n \rightarrow \Sigma^m$
+\item\textbf{Output :}
+\[
+      \begin{split}
+        &\text{The string } y \in \{ f(x) = x \in \Sigma^n \} \\
+        &\text{that comes first in the lexicographic ordering of } \Sigma^n
+      \end{split}
+      \]
+\end{itemize}
+Sometimes we also consider query problems where we have a promise on the input . Inputs that doesn't satisfy the promise are called don't care input .
+\item\textbf{Unique search:}
+\begin{itemize}
+\item\textbf{Input :}$f: \Sigma^n \rightarrow \Sigma$
+\item\textbf{Promise :}
+\[
+\begin{split}
+	&\text{There is exactly one string }z \in \Sigma^n \\
+ 	&\text{ for which f(z) = 1 , with f(x) = 0 for all strings } x \neq z .
+ \end{split}
+\]
+\item\textbf{Output :}\text{ The string z .}
+\end{itemize}
+\end{enumerate}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item\textbf{Query Gate :}
+ \begin{center}
+        \includegraphics[width=6cm]{Q_234.jpg}
+    \end{center}
+For the circuit model of computation , queries are made by \textbf{query gates} .For the quantum circuit model , we choose a different defination for query gates that makes them unitary - allowing them to be applied to quantum states .
+\item\textbf{Definition :}
+\[
+	\begin{aligned}
+         &\text{The query gate } U_f \text{ for any function } f : \Sigma^n \rightarrow \Sigma^m \\
+	 &\text{is defined as } U_f(\ket{y} \ket{x}) = \ket{y \oplus f(x)} \ket{x} \quad \forall x\in \Sigma^n \\
+	 &\text{and }y \in \Sigma^m. 
+	\end{aligned}
+\]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item\textbf{Notation :}
+ \begin{center}
+        \includegraphics[width=6cm]{Q234.jpg}
+    \end{center}
+The string $y \oplus f(x)$ is the bitwise XOR of y and f(x) . \\
+$001 \oplus 101 = 100 $\\
+ $\ket{0^m} \rightarrow $ All zero string . 
+\item\textbf{Deutsch's Algo :}
+Deutsch's problem is parity problem of functions of the form  $f:\Sigma \rightarrow \Sigma$.
+\end{itemize}
+\end{frame}
+\begin{frame}
+
+ 
+  \begin{table}[ht]
+    \centering
+    \begin{tabular}{|c|c||c|c||c|c||c|c|}
+      \hline
+      $a$ & $f(a)$ & $a$ & $f_2(a)$ & $a$ & $f_3(a)$ & $a$ & $f_4(a)$ \\
+      \hline
+      0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 \\
+      1 & 0 & 1 & 1 & 1 & 0 & 1 & 1 \\
+      \hline
+    \end{tabular}
+  \end{table}
+$f_1$ and $f_4$ are \textbf{constant} and $f_2$ and $f_3$ are \textbf{balanced} .
+\begin{itemize}
+\item\textbf{Problem :}
+\item\textbf{Input :}
+$f:\Sigma \rightarrow \Sigma$
+\item\textbf{Output :}
+ \[
+\begin{cases}
+    0 & \text{if f is constant }  \\
+    1 & \text{if f is balanced }
+\end{cases}
+\]
+Every classical query algo must make two queries to f to solve this problem learning just one of two bits provids no information about their parity .
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item\textbf{Notation :}
+ \begin{center}
+        \includegraphics[width=9cm]{Q-234.jpg}
+    \end{center}
+\begin{align*}
+\ket{\pi_1} &= \ket{-} \ket{+} \\
+&= \left(\frac{1}{\sqrt{2}}\ket{0} - \frac{1}{\sqrt{2}}\ket{1}\right) \frac{1}{\sqrt{2}}\ket{0} + \left(\frac{1}{\sqrt{2}}\ket{0} - \frac{1}{\sqrt{2}}\ket{1}\right) \frac{1}{\sqrt{2}}\ket{1} \\
+&= \frac{1}{\sqrt{2}} (\ket{0} - \ket{1}) \ket{0} + \frac{1}{\sqrt{2}} (\ket{0} - \ket{1}) \ket{1}
+\end{align*}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item\textbf {$ \ket {\pi_2} $ :}
+
+$ U_f $ gate is performed . According to the definition of the $ U_f $ gate , the value of the function f for the classical state of the top / right most qbit is XORed onto the bottom/left most qbit , which transforms $ \ket { \pi_1} $ to $\ket { \pi_2}$
+\begin{align*}
+\ket{\pi_2} &= \frac{1}{2}\left(\ket{10\oplus f(0)} - \ket{1\oplus f(0)}\right)\ket{0} \\
+&\quad + \frac{1}{2}\left(\ket{10\oplus f(1)} - \ket{1\oplus f(1)}\right)\ket{1} \\
+&\quad \left[\ket{10\oplus a}-\ket{1\oplus a} = \left(-1\right)^a \left(\ket{0}-\ket{1}\right)\right] \\
+&=\frac{1}{2}\left(-1\right)^{f(0)}\left(\ket{0}-\ket{1}\right)\ket{0}+\frac{1}{2}\left(-1\right)^{f(1)}\left(\ket{0}-\ket{1}\right)\ket{1}\\
+&=\ket{-}\left(\frac{\left(-1\right)^{f(0)}\ket{0}+\left(-1\right)^{f(1)}\ket{1}}{\sqrt{2}}\right)
+\end{align*}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{align*}
+&=\left(-1\right)^{f(0)}\ket{-}\left(\frac{\ket{0}+\left(-1\right)^{\left(f(0)\oplus f(1)\right)}\ket{1}}{\sqrt{2}}\right) \\
+&=
+\begin{cases}
+    \left(-1\right)^{f(0)}\hspace{1cm}\ket{-}\ket{+}\hspace{1cm}&f(0)\oplus f(1)=0  \\
+    \left(-1\right)^{f(0)}\hspace{1cm}\ket{-}\ket{-}\hspace{1cm}&f(0)\oplus f(1)=1   \\
+\end{cases}
+\end{align*}
+\begin{itemize}
+\item \textbf{Phase Kickback:}
+\begin{align*}
+\ket{b\oplus c}=x^c\ket{b}
+U_f\left(\ket{b}\ket{a}\right)=\ket{b\oplus f_a}\ket{a}
+&=\left(x^{f(a)}\ket{b}\right)\ket{a} \\
+x\ket{-}=-\ket{-} \\
+U_f\left(\ket{-}\ket{a}\right)=\mathbf{\left(-1\right)^{f(a)}\ket{-}\ket{a}}
+\end{align*}
+\item\textbf {Deuctsch-Jozsa Algorithm :}
+The Deuctsch Jozsa Algo extends deuctsch's algorithm . To input functions of the form ,
+$f:\Sigma^n \rightarrow \Sigma$ for any n$\ge$1
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item\textbf {Quantum Circuit :}
+ \begin{center}
+        \includegraphics[width=9cm]{algo2.jpg}
+    \end{center}
+\item\textbf{Problem :}
+\item\textbf{Input : } $f: \Sigma^n \rightarrow \Sigma$
+\item\textbf{Promise :} f is either constant or balanced .
+\item\textbf{Output :}  
+\[
+\begin{cases}
+    0 & \text{if f is constant . } \\
+    1 & \text{if f is balanced . }
+\end{cases}
+\]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item \textbf{Analysis:}
+    We are taking a Hadamard operation:
+    \[
+    H\ket{0} = \frac{1}{\sqrt{2}} \ket{0} + \frac{1}{\sqrt{2}} \ket{1}
+    \]
+    \[
+    H\ket{0} = \frac{1}{\sqrt{2}} \ket{0} - \frac{1}{\sqrt{2}} \ket{1}
+    \]
+    We can express the two equations via one .
+ \[
+   H\ket{a} = \frac{1}{\sqrt{2}} \ket{0} + \frac{1}{\sqrt{2}}\left(-1\right)^a \ket{1}
+ \]
+\[
+ =\frac{1}{\sqrt{2}}\sum_{b\in\{0,1\}} \left(-1\right)^{ab}\ket{b}
+\]
+Hadamard operation on each of n qubit :
+\[
+H^{\oplus n}\ket{X_{n-1}\cdots X_0}
+\]
+\[
+=\left(H\ket{X_{n-1}}\right)\oplus\cdots\oplus\left(H\ket{X_0}\right)
+\]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\[
+= \left(\frac{1}{\sqrt{2}}\sum_{y_{n-1}\in\Sigma} \left(-1\right)^{x_{n-1}y_{n-1}}\ket{y_{n-1}}\right) \oplus \cdots \oplus \left(\frac{1}{\sqrt{2}}\sum_{y_{0}\in\Sigma} \left(-1\right)^{x_{0}y_{0}}\ket{y_{0}}\right)
+\]
+\[
+= \frac{1}{\sqrt{2^n}}\sum_{y_{n-1}\cdots y_{0}\in\Sigma} \left(-1\right)^{x_{n-1}y_{n-1}+\cdots+x_{0}y_{0}}\ket{y_{n-1}\cdots y_{0}}
+\]
+\begin{itemize}
+\item \textbf{Binary Dot Product:}
+For binary strings \(x = x_{n-1}\cdots x_{0}\) and \(y = y_{n-1}\cdots y_{0}\),
+\[
+x\cdot y=x_{n-1}y_{n-1}\oplus\cdots\oplus x_{0}y_{0}
+\]
+\[
+\quad=
+\begin{cases}
+    1 & \text{if  }x_{n-1}y_{n-1}+\cdots+x_{0}y_{0}\text{  is odd .} \\
+    0 & \text{if  }x_{n-1}y_{n-1}+\cdots+x_{0}y_{0}\text{  is even .} 
+\end{cases}
+\]
+\[
+H^{\otimes n}\ket{x}=\frac{1}{\sqrt{2}^n}\sum_{y\in\Sigma^n}\left(-1\right)^{x\cdot y}\ket{y}
+\]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\[
+\ket{\pi_1} = \ket{-} \otimes \frac{1}{\sqrt{2}^n}\sum_{x\in\Sigma^n}\ket{x}
+\]
+\[
+\ket{\pi_2} = \ket{-} \otimes \frac{1}{\sqrt{2}^n}\sum_{x\in\Sigma^n}\left(-1\right)^{f(x)}\ket{x}
+\]
+\[
+\ket{\pi_3} = \ket{-} \otimes \frac{1}{\sqrt{2}^n}\sum_{y\in\Sigma^n}\sum_{x\in\Sigma^n}\left(-1\right)^{f(x)+x\cdot y}\ket{y}
+\]
+The probability of measurements given $y=0^n$ is
+\[
+p(0^n)=\left|\frac{1}{\sqrt{2}^n}\sum_{x\in\Sigma^n}\left(-1\right)^{f(x)}\right|^2
+\]
+\[
+\begin{cases}
+    1 & \text{if f is constant . } \\
+    0 & \text{if f is balanced . }
+\end{cases}
+\]
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item \textbf{Bernstein-Vazirani Problem:}
+\item \textbf{Input:}
+    $f : \Sigma^n \rightarrow \Sigma$
+\item \textbf{Promise:}
+    There exists a binary string $s = s_{n-1}\cdots s_0$ for which $f(x) = s \cdot x$ for all $x \in \Sigma^n$
+\item \textbf{Output:}
+    The string $s$
+\[
+\ket{\pi_3} = \ket{-} \otimes \frac{1}{\sqrt{2}^n}\sum_{y\in\Sigma^n}\sum_{x\in\Sigma^n} (-1)^{f(x) + x \cdot y}\ket{y} 
+\]
+
+\[
+= \ket{-} \otimes \frac{1}{\sqrt{2}^n}\sum_{y\in\Sigma^n}\sum_{x\in\Sigma^n} (-1)^{s\cdot x + y\cdot x}\ket{y} 
+\]
+
+\[
+= \ket{-} \otimes \frac{1}{\sqrt{2}^n}\sum_{y\in\Sigma^n}\sum_{x\in\Sigma^n} (-1)^{\left(s\oplus y\right)\cdot x}\ket{y} 
+\]
+
+\[
+= \ket{-}\otimes\ket{s}
+\]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item \textbf{Simon's Algorithm:}
+\item \textbf{Input:}
+    $f : \Sigma^n \rightarrow \Sigma^m$
+\item \textbf{Promise:}
+   $\exists$ a string $s\in\Sigma^n$ such that
+\[
+\left[f(x)=f(y)\right] \Leftrightarrow \left[(x=y) \lor (x\oplus s)=y\right] \quad \forall x, y \in \Sigma^n
+\]
+\item \textbf{Output:} The string $s$
+\item{case 1 :}
+$s=0^n$
+the condition in the promise simplifies to 
+\[
+\left[f(x)=f(y)\right] \Leftrightarrow \left[x=y\right]
+\]
+this is equivalent to f being one-to-one .
+\item{case 2 :}
+$s\neq0^n$
+the function f must be two-to-one to satisfy the promise
+\[
+f(x)=f(x\oplus s)
+\]
+with distinct output strings for each pair .
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+ \item\textbf{Quantum circuit :}
+    \begin{center}
+        \includegraphics[width=6cm]{algo3..jpg}
+    \end{center}
+\[
+\ket{\pi_1}=\frac{1}{\sqrt{2}^n}\sum_{x\in\Sigma^n}\ket{0^m}\ket{x}
+\]
+\[
+\ket{\pi_2}=\frac{1}{\sqrt{2}^n}\sum_{x\in\Sigma^n}\ket{f(x)}\ket{x}
+\]
+\[
+\ket{\pi_3}=\frac{1}{\sqrt{2}^n}\sum_{x\in\Sigma^n}\ket{f(x)}\oplus\left(\frac{1}{\sqrt{2}^n}\Sigma\left(-1\right)^{x\cdot y}\ket{y}\right)
+\]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\[
+=\frac{1}{2^n}\sum_{y\in\Sigma^n}\sum_{x\in\Sigma^n} (-1)^{x\cdot y}\ket{f(x)}\ket{y}
+\]
+\[
+p(y) = \left\lVert \frac{1}{2^n}\sum_{x\in\Sigma^n} (-1)^{x\cdot y}\ket{f(x)} \right\rVert^2
+\]
+\[
+\begin{cases}
+\text{range}(f) = \{ f(x) : x \in \Sigma^n \} \\
+f^{-1}(\{ z \}) = \{ x \in \Sigma^n : f(x) = z \}
+\end{cases}
+\]
+\[
+= \left\lVert \frac{1}{2^n}\sum_{z\in\text{range}(f)} \left(\sum_{x\in f^{-1}(\{z\})}(-1)^{x\cdot y}\ket{z} \right)\right\rVert^2
+\]
+\[
+=\frac{1}{2^{2n}}\sum_{z\in\text{range}\left(f\right)}\left|\sum_{x\in f^{-1}(\{z\})}(-1)^{x\cdot y}\right|^2
+\]
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item{Case 1 :}
+$s=0^n$
+Because \(f\) is a one-to-one , there a single element \(x\in f^{-1}(\{z\})\) for every \(z\in\) range\((f)\) :
+\[
+\left|\sum_{x\in f^{-1}(\{z\})}(-1)^{x\cdot y}\right|^2=1
+\]
+There are \(2^n\) elements in range \(f\) , so
+\[
+p(y)=\frac{1}{2^{2n}}\cdot 2^n=\frac{1}{2^n}\hspace{1cm}\forall y\in \Sigma^n
+\]
+\item{Case 2 :}
+$s\neq 0^n$
+There are two strings in the set \( f^{-1}(\{z\})\) for each \(z\in\) range \(\left(f\right)\) if \( w\in f^{-1}(\{z\})\) either one of them , then \( w\oplus s\) is the other .
+\[
+\left|\sum_{x\in f^{-1}(\{z\})}(-1)^{x\cdot y}\right|^2=\left|(-1)^{w\cdot y}+(-1)^{\left(w\oplus s\right)\cdot y}\right|^2
+\]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\[
+= \left| 1 + (-1)^{s \cdot y} \right|^2
+\]
+\[
+=
+\begin{cases}
+    4 \hspace{1cm} s \cdot y = 0 \\
+    0 \hspace{1cm} s \cdot y = 1
+\end{cases}
+\]
+There are \(2^{n-1}\) elements in range \((f)\) so:
+\[
+p(y) = \frac{1}{2^{2n}}\sum_{z\in\text{range}} \left| \sum_{x\in f^{-1}(\{z\})} (-1)^{x \cdot y} \right|^2
+\]
+\[
+=
+\begin{cases}
+    \frac{1}{2^{n-1}} \hspace{1cm} s \cdot y = 0 \\
+    0  \hspace{1.5cm} s \cdot y = 1
+\end{cases}
+\]
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item\textbf{Integer Factorization:}
+\item \textbf{Input:}
+An integer \(N \geq 2\)
+\item \textbf{Output:}
+The prime factorization of \(N\).\\
+The Prime Factorization of \(N\) is the list of prime factors of \(N\) and the powers to which they must be raised to obtain \(N\) by multiplication.
+\item\textbf{Greatest Common Divisor:}
+\item \textbf{Input:} Non-negative integers \(N\) and \(M\) not both 0.
+\item \textbf{Output:} The Greatest Common Divisor of \(N\) and \(M\).
+\item\textbf{Measuring Computational Cost:}
+Abstract overview of computation: \\
+\begin{enumerate}
+\item{Turing Mechine}
+\item{Boolean Circuits}
+\item{Quantum Circuits}
+\item{Python Programs}
+\end{enumerate}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item\textbf{Encoding and input length :}
+\item{Inputs and outputs are binary strings .}
+\item{Through binary strings we can encode .}
+\begin{enumerate}
+\item{Numbers}
+\item{Vectors}
+\item{Matrices}
+\item{Graphs}
+\item{Description of molecules}
+\end{enumerate}
+\item{Example :}\\
+\begin{tabular}{|c|c|c|}
+\hline
+Number & Encode & Length \\
+\hline
+0 & 0 & 1 \\
+1 & 1 & 1 \\
+2 & 10 & 2 \\
+\hline
+\end{tabular}
+\\Length of binary encoding of N :
+\[
+\log{N}=
+\begin{cases}
+1\hspace{2.6cm}N=0\\
+1+\log_{2}{N}\hspace{1cm}N\geq1
+\end{cases}
+\]
+\end{itemize}
+\end{frame}
+\begin{frame}
+In general , Input length is the length of the binary String encoding of the input , with respect to whatever encoding scheme has been selected .
+\begin{itemize}
+\item\textbf{Elementory Operation :}
+For circuit based models of computation it is typical that we view each gate as being an elementory operation .
+\item{A standard quantum gate set :}
+\begin{enumerate}
+\item{Single-qubit unary gates from \(X,Y,Z,H,S,S^T,T,T^T\)}
+\item{Controlled-NOT gates}
+\item{Single-qubit standard basis measurements .}
+\end{enumerate}
+The Unitary gates in this set are universal-any Unitary operation can be closely approximate by a circuit of the gates .
+\item\textbf{A Standard boolean gate set :}
+\begin{enumerate}
+\item{AND}
+\item{OR}
+\item{NOT}
+\item{FANOUT}
+\end{enumerate}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item\textbf{Circuit Size :}
+A \textbf{size} of a circuit is the total number of gates it includes, we may write size(c) to refer the size of a circuit .\\
+Circuit size corresponds to sequential running time . \\
+The \textbf{depth} of a circuit is the maximum number of gates encountered on any path from an input to an output wire .
+\item\textbf{Cost as a \(f(x)\) of input length}
+Each circuit has a fixed size so we need a family \({c_1,c_2\cdots}\) of circuit to describe an algorithm,typically one circuit for each input length.
+\item{Example :}
+A classical algorithm for integer factorization could be described by a family of boolean circuits.\\
+The cost of such an algorithm is described by a function . \(t(n)=size(C_n)\)
+\item\textbf{Asymptotic Notation :}
+\item\textbf{Big-O-Notation :}
+For two functions \(g(n)\) and \(h(n)\) we write that \(g(n)=O(h(n))\) if there exist a positive real number \(c>0\) and positive integer no such that :
+\[
+g(n) \leq c\cdot h(n) \quad \forall n \geq n_0
+\]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item{Eample :}\\
+\begin{enumerate}
+\item {Addition of n-bit integer can be computed at cost O(n).}\\
+\item{Multiplication of n-bit integer can be computed at cost \(O(n^2)\).}\\
+\item{Division of n-bit integer can be computed at cost \(O(n^2)\).}\\
+\item{GCD of n-bit integer can be computed at cost \(O(n^2)\).}\\
+\item{Moduler exponential cost of n-bit integer can be computed at cost \(O(n^3)\).}\\
+\end{enumerate}
+\item\textbf{Polynomial vs Exponential cost :}
+An algorithm's cost is polynomial if it is \(O(n^b)\) for some fixed constant \(b>0\)\\
+An algorithm's cost scales sub exponentially if it is :
+\[
+O\left(2^{n^{\epsilon}}\right)\quad \forall\epsilon>0
+\]
+otherwise exponential (or super exponential).
+ \item\textbf{Toffoli gates :}
+Toffoli gates are controlled-controlled-NOT gate .
+    \begin{center}
+        \includegraphics[width=7cm]{algo4.jpg}
+    \end{center}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+ \item\textbf{ Simulating Boolean Gates :}
+ \item\textbf{ AND gate and OR gate :}
+    \begin{center}
+        \includegraphics[width=9cm]{algo5.jpg}
+    \end{center}
+ \item\textbf{ FANOUT gate :}
+    \begin{center}
+        \includegraphics[width=9cm]{algo6.jpg}
+    \end{center}
+\end{itemize}
+\end{frame}
+\begin{frame}
+    \begin{center}
+        \includegraphics[width=9cm]{algo7.jpg}
+    \end{center}
+
+\end{frame}
+\begin{frame}{Spectral Theorem}
+Suppose U is an NxN unitary matrix \\ 
+There exists an orthonormal basis { $\ket{\psi_1}...\ket{\psi_N}$} of vector along with complex numbers \\
+$\lambda_1 = e^{2\pi i\theta_1}, ... ,\lambda_N = e^{2\pi i \theta_N}$ such that \\
+\begin{center}
+$U = \sum_{k=1}^{N}\lambda_k \ket{\psi_k}\bra{\psi_k}$
+\end{center}
+Each of the vector $\ket{\psi_k}$ is an eigenvector of $U$ having eigenvalue $\lambda_k$
+\begin{center}
+$U\ket{\psi_k} = \lambda_k\ket{\psi_k} = e^{2\pi i \theta_k} \ket{\psi_k}$
+\end{center}
+\end{frame}
+\begin{frame}{Phase Estimation Problem}
+\begin{description}
+\item[Input: ] A unitary quantum circuit for an n-qubit operation $U$ and an n qubit quantum state $\ket{\psi}$ 
+\item[Promise: ] $\ket{\psi}$ is an eigenvector of $U$
+\item[Output: ] An approximation to the number $\theta \in [0,1)$ satisfying $U\ket{\psi}=e^{2\pi i \theta}\ket{\psi}$
+\end{description}
+We can approximate $\theta$ by fraction 
+\begin{center}
+$\theta \approx {y/2^m} \quad \forall \quad y\in  \{0,1,...,2^{m-1}\} $
+\end{center}
+\end{frame}
+\begin{frame}{Phase Estimation Procedure}
+Approximating phase with low precision using the phase kick back 
+\begin{figure}
+\includegraphics[width=0.8\linewidth]{img.jpg}
+\end{figure}
+$\ket{\pi_0} = \ket{\psi}\ket{0}$\\
+$\ket{\pi_1} = {1/\sqrt{2}}\ket{\psi}\ket{0} + {1/\sqrt{2}\ket{\psi}\ket{1}}$\\
+$\ket{\pi_2}$ = $\ket{\psi}\otimes$ (${1/\sqrt{2}}\ket{0} + {{e^{2\pi i \theta}}/\sqrt{2}}\ket{1}$)\\
+$\ket{\pi_3}$ = $\ket{\psi}\otimes ((1+{e^{2\pi i \theta}})/2 + ((1-{e^{2\pi i \theta}})/2)\ket{1}) $
+\end{frame}
+\begin{frame}{Phase Estimation Procedure}
+Measuring Probability \\
+\vspace{1cm}
+$P_0$ = $\big | \frac{1+e^{2\pi\theta i}}{2} \big |^2$ = $cos^2(\pi\theta)$ \\
+\vspace{1cm}
+$P_1$ = $\big | \frac{1-e^{2\pi\theta i}}{2} \big |^2$ = $sin^2(\pi\theta)$\\
+\end{frame}
+\begin{frame}{Doubling the phase}
+\includegraphics[scale=0.1]{img2.jpg} \\
+\vspace{1cm}
+By this circuit the value of $\theta$ is doubled only\\
+\end{frame}
+\begin{frame}{Two qubit phase estimation}
+\includegraphics[scale=0.1]{img3.jpg} \\
+$\ket{\pi_1} = \ket{\psi}\otimes \frac{1}{2}{\sum_{a_0=0}^{1}\sum_{a_1=0}^{1}\ket{a_1 a_0}}$\\
+$\ket{\pi_2} = \ket{\psi}\otimes \frac{1}{2}{\sum_{a_0=0}^{1}\sum_{a_1=0}^{1}e^{2\pi i a_0 \theta}\ket{a_1 a_0}}$
+\end{frame}
+\begin{frame}
+$\ket{\pi_3} = \ket{\psi}\otimes \frac{1}{2}{\sum_{a_0=0}^{1}\sum_{a_1=0}^{1}e^{2\pi i (a_0+2a_1) \theta}\ket{a_1 a_0}}$\\
+\vspace{0.5cm}
+$\ket{\pi_3} = \ket{\psi}\otimes \frac{1}{2}{\sum_{x=0}^{3}e^{2\pi i x \theta}\ket{x}}$\\
+\vspace{0.5cm}
+We will consider a special case where $\theta$ = $\frac{y}{4}$ for y $\in \{0,1,2,3\}$\\
+$\therefore \theta \in \{0,\frac{1}{4},\frac{1}{2},\frac{3}{4}\}$\\
+\vspace{0.5cm}
+$\ket{\phi_y} = \frac{1}{2} \sum_{x=0}^{3}e^{2\pi i x \frac{y}{4}}\ket{x}$\\
+\vspace{0.5cm}
+\hspace{2cm} where y$\in$ \{0,1,2,3\}
+\end{frame}
+\begin{frame}
+Results :\\
+\vspace{1cm}
+$\ket{\phi_0} = \frac{1}{2}\ket{0}+\frac{1}{2}\ket{1}+\frac{1}{2}\ket{2}+\frac{1}{2}\ket{3}$\\
+\vspace{0.5cm}
+$\ket{\phi_1} = \frac{1}{2}\ket{0}+\frac{i}{2}\ket{1}-\frac{1}{2}\ket{2}-\frac{i}{2}\ket{3}$\\
+\vspace{0.5cm}
+$\ket{\phi_2} = \frac{1}{2}\ket{0}-\frac{1}{2}\ket{1}+\frac{1}{2}\ket{2}-\frac{1}{2}\ket{3}$\\
+\vspace{0.5cm}
+$\ket{\phi_3} = \frac{1}{2}\ket{0}-\frac{i}{2}\ket{1}-\frac{1}{2}\ket{2}+\frac{i}{2}\ket{3}$\\
+\vspace{0.5cm}
+\end{frame}
+\begin{frame}
+Here we are taking the columns of $V$ to be the states $\ket{\phi_0} . . . \ket{\phi_3}$\\
+\vspace{1cm}
+V = $\frac{1}{2}
+\begin{pmatrix}
+1 & 1 & 1 & 1\\
+1 & i & -1 & -i\\
+1 & -1 & 1 & -1\\
+1 & -i & -1 & i\\
+\end{pmatrix}$\\
+\vspace{1cm}
+This V $4x4$ matrix is named as $QFT_4$ (Quantum Fourier Transformation)
+\end{frame}
+\begin{frame}{Quantum Fourier Transformation}
+To define the quantum fourier transformation $\omega_N$ , complex number have to be defined first, for positive integer N\\
+\vspace{1cm}
+$\omega_N = e^{\frac{2\pi i}{N}} = cos(\frac{2\pi}{N}+ i sin(\frac{2\pi}{N}))$\\
+\vspace{1cm}
+The N dimensional quantum fourier transformation, which is described by NxN matrix whose rows and columns are associated with standard basis state 
+$\ket{0}...\ket{N-1}$\\
+\vspace{1cm}
+$QFT_N = \frac{1}{\sqrt N}(\sum_{x=0}^{N-1}\sum_{x=0}^{N-1}\omega_{N}^{xy}\ket{x}\bra{y})$\\
+\end{frame}
+\begin{frame}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.1]{img4.jpg}
+\caption{32 dimentional QFT}
+\end{figure}
+\end{frame}
+\begin{frame}
+Computational Cost:\\
+\vspace{1cm}
+Let $S_m$ denotes the total number of gates in a m qubit QFT\\
+For m = 1, a single Hadamard gate is required \\
+ For m $\geq$ 2 , these are the gates requires \\
+\hspace{2cm} $S_m$ for the $QFT_{m-1}$ gates\\
+\hspace{2cm} m-1 controlled  phase gate \\
+\hspace{2cm} m-1 swap gate \\
+\hspace{2cm} 1 Hadamard gate \\
+\[
+    \ S_m =
+    \begin{cases}
+        1, & \text{if } m = 1 \\
+        S_{m-1} + 2m-1, & \text{if } m \geq 2
+    \end{cases}
+\] 
+
+\end{frame}
+\begin{frame}
+Phase estimation for any  choice of m\\
+$P_y$ = $|\frac{1}{2^m}\sum_{x=0}^{2^m-1} e^{2\pi i x (\theta - \frac{y}{2^m})}|^2$ \\
+\vspace{1cm}
+Best Case:
+Suppose $y/2^m$ is the best approximation to $\theta$\\
+$|\theta - \frac{y}{2^m}|\leq 2^{-(m+1)}$\\
+$P_y \geq \frac{4}{\pi^2} \approx 0.405$ \\
+\vspace{1cm}
+Worst Case:
+Suppose there is a better approximation to $\theta$ between $\frac{y}{2^m}$ to $\theta$\\
+$|\theta - \frac{y}{2^m}\geq 2^{-m}|$\\
+$P_y \leq \frac{1}{4}$\\
+\end{frame}
+\begin{frame}{Shor's algorithm}
+Order Finding Problem :
+\begin{description}
+\item[Input: ] Positive integers N and a satisfying $\gcd(N,a)$=1
+\item[Output: ] The smallest positive integer r such that $ a^r \equiv 1 $ (mod N)
+\end{description}
+\end{frame}
+\begin{frame}{Factoring by Order-Finding}
+If N is odd and not a prime power, order-finding allows us to split N.\\
+Iterate the following steps:
+\begin{itemize}	
+\item Randomly choose a$\in$ {2,...,N-1}
+\item Compute d = $gcd(a,N)$ if d $\geq$ 2 then output id d and stop 
+\item Compute the order r of a modulo N.
+\item If r is even then compute d = $gcd(a^{\frac{r}{2}}-1,N)$ if d $\geq$ 2 then output id d and stop 
+\item If this step reached, The method failed
+\end{itemize}
+There is a 50$\%$ chance of achiving success in this method.
+\end{frame}
+\begin{frame}{Introduction to Grover's Algo}
+Grover's algorithm, which is a quantum algorithm for so-called unstructured search problems that offers a quadratic improvement over classical algorithms. What this means is that Grover's algorithm requires a number of operations on the order of the square-root of the number of operations required to solve unstructured search classically — which is equivalent to saying that classical algorithms for unstructured search must have a cost at least on the order of the square of the cost of Grover's algorithm. 
+\end{frame}
+\begin{frame}{Unstructured Search}
+\begin{itemize}
+\item{Input: } $f : \sum^{n} \to \sum$ 
+\item{Output: } A string x$\in \sum^{n}$ satisfying f(x) = 1 or "no solution" if no such string exists.
+\end{itemize}
+This is unstructured search because $f$ is  and there is no promise and also we can't rely on it having a structure that makes finding solution easy. 
+\end{frame}
+\begin{frame}{Grover's algorithm}
+\begin{itemize}
+\item Initialize : Set n qubit to state $H^{\otimes n}\ket{0^n}$
+\item Iterate : Apply the Grover operation t times 
+\item Measure : A standard basis measurement yields a candidate solution.
+\end{itemize}
+The Grover Operation looks like \hspace{1cm} $G =H^{\otimes n} Z_{OR} H^{\otimes n} Z_f $ 
+\includegraphics[scale=0.1]{img5.jpg} 
+\end{frame}
+\begin{frame}
+\begin{itemize}
+\item{$Z_f\ket{X}$  : } $Z_f\ket{X}$ = $-1^{f(X)}\ket{X}$
+\item{$Z_{OR\ket{X}}$  : } \[
+    \ Z_{OR\ket{X}} =
+    \begin{cases}
+        \ket{X}, & \text{if }  X = 0^n\\
+        - \ket{X}, & \text{if } X \neq 0^n
+    \end{cases}
+\] 
+
+\end{itemize}
+\includegraphics[scale=0.1]{img6.jpg} 
+\end{frame}
+\begin{frame}{Solution and Non-Solution}
+We will refer to the n qubit begin used for Grover's Algo as a register Q\\
+{Q is initialized to the state $H^{\otimes n}\ket{0^n}$ and Grover operation G is performed iteratively}\\
+$A_0 = \{x \in \sum^n : f(x) = 0\}$ \hspace{1cm} Non Solutions\\
+$A_1 = \{x \in \sum^n : f(x) = 1\}$ \hspace{1cm} Solutions\\
+\vspace{0.5cm}
+$\ket{A_0} = \frac{1}{\sqrt{|A_0|}}\sum_{x \in A_0}\ket{x}$\\
+$\ket{A_1} = \frac{1}{\sqrt{|A_1|}}\sum_{x \in A_1}\ket{x}$\\
+\vspace{0.5cm}
+$\ket{u} = H^{\otimes n}\ket{0^n} = \frac{1}{\sqrt{N}}\sum_{x\in \sum^{n}}\ket{x}$\\
+$\ket{u} = \sqrt{\frac{|A_0|}{N}}\ket{A_0} + \sqrt{\frac{|A_1|}{N}}\ket{A_1}$
+\end{frame}
+\begin{frame}{Action of Grover Operation}
+$G\ket{A_0} = (2 \ket{u} \bra{u}-1) Z_r \ket{A_0}$\\
+
+$G\ket{A_0}= 2\sqrt{\frac{|A_0|}{N}} \ket{u} - \ket{A_0}$\\
+
+$G\ket{A_0} = \frac{|A_0|-|A_1|}{N} \ket{A_0} + \frac{2 \sqrt{|A_0|.|A_1|}}{N} \ket{A_1} $\\
+\vspace{1cm}
+$G\ket{A_1} = (2 \ket{u} \bra{u}-1) Z_r \ket{A_1}$\\
+
+$G\ket{A_1}= \ket{A_1} - 2\sqrt{\frac{|A_1|}{N}} \ket{u} $\\
+$G\ket{A_1} = - \frac{2 \sqrt{|A_0|.|A_1|}}{N} \ket{A_0} + \frac{|A_0|-|A_1|}{N} \ket{A_1}  $\\
+\end{frame}
+\begin{frame}{Rotation by an angle}
+M = $
+\begin{pmatrix}
+\frac{|A_0|-|A_1|}{N} &  - \frac{2 \sqrt{|A_0|.|A_1|}}{N}\\
+\frac{2 \sqrt{|A_0|.|A_1|}}{N} & \frac{|A_0|-|A_1|}{N}\\
+\end{pmatrix}$\\
+$ = 
+\begin{pmatrix}
+\sqrt{\frac{|A_0|}{N}} &  - \sqrt{\frac{|A_1|}{N}}\\
+\sqrt{\frac{|A_1|}{N}} & \sqrt{\frac{|A_0|}{N}}\\
+\end{pmatrix}^{2}$\\
+$ = 
+\begin{pmatrix}
+cos(2\theta) &  - sin(2\theta)\\
+sin(2\theta) & cos(2\theta) \\
+\end{pmatrix}^{2}$\\
+\vspace{1cm}
+$\ket{u} = cos(\theta)\ket{A_0} + sin(\theta)\ket{A_1}$\\
+$G \ket{u} = cos(3\theta)\ket{A_0} + sin(3\theta)\ket{A_1}$\\
+$G^t \ket{u} = cos((2t+1)\theta)\ket{A_0} + sin((2t+1)\theta)\ket{A_1}$\\
+\end{frame}
+\begin{frame}{Setting Targate}
+Consider a quantum state 
+$\alpha\ket{A_0} + \beta\ket{A+1}$\\
+\hspace{1cm}
+x $\in A_1$ with probability $|\beta|^2$\\
+Measuring after t iteration given an outcome x $\in A_1$ with probability \\
+\hspace{2cm}
+$\sin^2((2t+1)\theta)$\\
+\vspace{1cm}
+To make this probability close to 1 and minimize t $(2t+1)\theta \approx \frac{\pi}{2} => t =   \lfloor \frac{\pi}{4\theta} \rfloor   $
+
+\end{frame}
+\begin{frame}{Unique Search}
+For Unique search we have $ s = |A_1| = 1$ and therefore \\
+\hspace{2cm}
+$\theta = \sin^{-1}(\sqrt{\frac{1}{N}}) \approx \sqrt{\frac{1}{N}} $\\
+For N = 128 \\
+\hspace{2cm}
+ t = 8\\
+\includegraphics[scale=0.5]{img7.jpg} 
+\end{frame}
+\begin{frame}{Multiple Search}
+Let's Consider N = 128 and s = 4\\
+\hspace{2cm}
+$\theta = \sin^{-1}(\sqrt{\frac{s}{N}}) = 0.177...$\\
+$ t = \lfloor \frac{\pi}{4\theta} \rfloor = 4$\\
+\includegraphics[scale=0.4]{img8.jpg} 
+\end{frame}
+\begin{frame}{Conclusion}
+\begin{itemize}
+\item Grover's Algorithm is asymptotically optimal
+\vspace{1cm}
+\item Grover's Algorithm is broadly applicable 
+\vspace{1cm}
+\item The technique used in Grover's Algorithm can be generalized 
+\end{itemize}
+\end{frame}
+\end{document}
