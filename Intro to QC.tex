@@ -1,0 +1,898 @@
+\documentclass[12pt, aspectratio=169]{beamer}
+\usepackage{graphicx}
+\usepackage{braket}
+\usepackage{amsmath}
+\usepackage{hyperref} 
+
+\definecolor{myblue}{RGB}{0,102,204} 
+
+\usetheme{Madrid}
+\usecolortheme[named=myblue]{structure} 
+
+\title{Quantum Computing}
+\subtitle{An Introduction}
+\author{Nishanka Das \and Debanjan Kola}
+\date{November 2023}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}[allowframebreaks]{Contents}
+    \tableofcontents
+\end{frame}
+
+\section{Introduction}
+\begin{frame}{Introduction}
+    \begin{itemize}
+        \item Overview of Quantum Computing
+        \item Basics of Quantum Systems
+    \end{itemize}
+\end{frame}
+
+\section{Classical Information}
+\begin{frame}{Classical Information}
+    \begin{block}{Assumption}
+        Let $X$ be a system member defining the set of Classical States, i.e., $\Sigma$.
+    \end{block}
+\end{frame}
+
+\section{Dirac Notation}
+\begin{frame}{Dirac Notation}
+    \begin{block}{Ket $\ket{a}$}
+        \[
+        \ket{0} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}
+        \]
+        \[
+        \ket{1} = \begin{pmatrix} 0 \\ 1 \end{pmatrix}
+        \]
+    \end{block}
+    
+    \begin{block}{Bra $\bra{a}$}
+        \[
+        \bra{0} = \begin{pmatrix} 1 & 0 \end{pmatrix}
+        \]
+        \[
+        \bra{1} = \begin{pmatrix} 0 & 1 \end{pmatrix}
+        \]
+    \end{block}
+\end{frame}
+
+\section{Multiplication of Bra and Ket}
+\begin{frame}{Multiplication of Bra and Ket}
+    We represent the arbitrary column vector by $\ket{\psi}$ and arbitrary row vector by $\bra{\psi}$ \\
+    \begin{itemize}
+        \item Multiplication of $\ket{x}$ $\bra{y}$ becomes a matrix 
+        \[
+        \begin{pmatrix}
+            a & b \\
+            c & d \\
+        \end{pmatrix}
+        \]
+        \item Multiplication of $\bra{x}$ $\ket{y}$ becomes a number 
+        \[
+        \begin{pmatrix}
+            a \\
+        \end{pmatrix}
+        \]
+    \end{itemize}
+\end{frame}
+
+\section{Probability Vector and Measuring Probabilistic State}
+\begin{frame}{Probability Vector and Measuring Probabilistic State}
+    \begin{block}{Probabilistic State}
+        A probabilistic state represents the state of a quantum system where the system's state isn't determined with certainty but rather as a probability distribution over possible states.
+    \end{block}
+\end{frame}
+
+\section{Classical Operation}
+\begin{frame}{Classical Operation}
+    \begin{block}{Deterministic Operation}
+        Every function $f : \Sigma \xrightarrow{} \Sigma$ describes a deterministic operation that transforms the classical state $ a $ into $f(a)$, $\forall a \in \Sigma$\\
+Given any function $f:\Sigma\xrightarrow{}\Sigma$, there is a unique matrix $M$ satisfying $M\ket{a} = \ket{f(a)} \forall a \in \Sigma$\\
+Matrix $M$ can be got by the equation $M(b,a) = \left\{
+    \begin{aligned}
+    1; b = f(a)\\
+    0; b \neq f(a)\end{aligned}
+\right.$
+In this $M$ matrix there must be only one $1$ in each column and other entries would be $0$\\.
+    \end{block}
+\end{frame}
+    \begin{frame}{Classical Operation}
+    \begin{block}{Probabilistic Operation and Composition}
+       Probabilistic Operations are classical operations that may introduce randomness or uncertainty. It can be described by Stochastic matrix.\\ Where,\\ 1)All entries are non-negative real numbers. \\ 2)The entries in every column sum to 1.\\
+
+Suppose that $X$ is a system having classical state set $\Sigma$ and $M_{1},...,M_{n}$  are stochastic matrices representing probabilistic operations on the system $X$.\\
+If the first operation $M_{1}$ is applied to the probabilistic state represented by a probability vector $u$, the resulting probabilistic state is represented by the vector $M_{1}u$. If we then apply the second probabilistic operation $M_{2}$ to this new probability vector, we obtain the probability vector\\
+$M_{2}(M_{1}u) = (M_{2}M_{1})u$  ( by associative operation )
+    \end{block}
+\end{frame}
+
+\section{Quantum State Vector}
+\begin{frame}{Quantum State Vector}
+\begin{block}{}
+A quantum state of a system is represented by a column vector, similar to probabilistic states. As before, the indices of the vector label the classical states of the system.
+\end{block}
+    \begin{block}{Properties}
+        \begin{itemize}
+            \item The entries of a quantum state vector are complex numbers.
+            \item The sum of the absolute values squared of the entries of a quantum state vector is 1.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Euclidean Norm}
+    \begin{block}{Euclidean Norm}
+        The Euclidean norm of a column vector $v=\begin{pmatrix}\alpha_{1}\\ .\\ .\\ .\\ \alpha_{n}\end{pmatrix}$ is denoted and defined as follows:
+        \[
+        ||v|| = \sqrt{\sum_{i=1}^{n} |\alpha_{i}|^2}
+        \]
+    \end{block}
+\end{frame}
+
+\section{Measuring Quantum States}
+\begin{frame}{Measuring Quantum States}
+   \section{Measuring Quantum States}
+If a quantum state is measured, each classical state of the system results with probability equal to the absolute value squared of the entry in the quantum state vector corresponding to that classical state. This is known as the Born rule in quantum mechanics. Notice that this rule is consistent with the requirement that the absolute values squared of the entries in a quantum state vector sum to 1. as it implies that the probabilities of different classical state measurement outcomes sum to 1.\\
+For Example \\
+$\ket{+}= (1/\sqrt{2})\ket{0}+(1/\sqrt{2})\ket{1}$\\
+results in the two possible outcomes, 0 and 1 with probabilities as follows.\\
+Pr(Outcome is 0) = $|\bra{0}\ket{+}|^2 = (1/\sqrt{2})^2 = 1/2$\\
+Pr(Outcome is 1) = $|\bra{1}\ket{+}|^2 = (1/\sqrt{2})^2 = 1/2$\\
+\end{frame}
+
+\section{Unitary Operations}
+\begin{frame}{Unitary Operations}
+    Unitary operations are transformations applied to quantum states that preserve the inner product and maintain the normalization of quantum states. These operations are represented by unitary matrices.
+\end{frame}
+
+\section{Pauli Operations}
+\begin{frame}{Pauli Operations}
+    The four Pauli matrices are as follows:
+    \[
+    \sigma_0 = \begin{pmatrix} 1 & 0\\ 0 & 1 \end{pmatrix}, \quad
+    \sigma_x = \begin{pmatrix} 0 & 1\\ 1 & 0 \end{pmatrix}, \quad
+    \sigma_y = \begin{pmatrix} 0 & -i\\ i & 0 \end{pmatrix}, \quad
+    \sigma_z = \begin{pmatrix} 0 & 0\\ 0 & -1 \end{pmatrix}
+    \]
+\end{frame}
+
+\section{Hadamard Operation}
+\begin{frame}{Hadamard Operation}
+    The Hadamard operation is described by this matrix:
+    \[
+    H = \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & 1\\ 1 & -1 \end{pmatrix}
+    \]
+\end{frame}
+
+\section{Phase Operations}
+\begin{frame}{Phase Operations}
+    A phase operation is described by the matrix:
+    \[
+    P_{\theta} = \begin{pmatrix} 1 & 0 \\ 0 & e^{i\theta} \end{pmatrix}
+    \]
+\end{frame}
+
+\begin{frame}{Relation Between Hadamard and $\ket{+}/\ket{-}$}
+    There is a relation between $H$ and $\ket{+}/\ket{-}$:
+    \begin{align*}
+        H\ket{0} &= \ket{+} \\
+        H\ket{1} &= \ket{-} \\
+        H\ket{+} &= \ket{0} \\
+        H\ket{-} &= \ket{1}
+    \end{align*}
+\end{frame}
+
+% Combine with the new content
+\newpage
+
+\title{Quantum computing}
+
+\begin{frame}{Introduction to Classical States}
+    \begin{itemize}
+        \item Classical States of Multiple Systems
+        \item Compound System \((X, Y)\)
+        \item Cartesian Product of Classical State Sets
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Cartesian Product of Classical State Sets}
+    The set of classical states of \((X, Y)\) is the Cartesian product of \(\Sigma\) and \(\Gamma\), denoted as \(\Sigma \times \Gamma\).
+    \[
+    \Sigma \times \Gamma = \{(a, b) : a \in \Sigma \text{ and } b \in \Gamma\}
+    \]
+\end{frame}
+
+\begin{frame}{More than Two Systems}
+    For more than two systems \(X_1, \ldots, X_n\) with classical state sets \(\Sigma_1, \ldots, \Sigma_n\):
+    \[
+    \Sigma_1 \times \cdots \times \Sigma_n = \{(a_1, \ldots, a_n) : a_1 \in \Sigma_1, \ldots, a_n \in \Sigma_n\}
+    \]
+\end{frame}
+
+\begin{frame}{Example: Two Bits}
+    If \(X_1, \ldots, X_{10}\) are bits with classical state sets \(\Sigma_1 = \cdots = \Sigma_{10} = \{0, 1\}\):
+    \[
+    \Sigma_1 \times \cdots \times \Sigma_{10} = \{0, 1\}^{10}
+    \]
+\end{frame}
+\begin{frame}{Probabilistic states}
+
+For example, suppose that \(X\) and \(Y\) are both bits, so that their corresponding classical state sets are \(\Sigma = \{0,1\}\) and \(\Gamma = \{0,1\}\), respectively. Here is a probabilistic state of the pair \((X,Y)\):
+
+\[
+\begin{aligned}
+    \operatorname{Pr}\bigl( (X,Y) = (0,0)\bigr) & = \frac{1}{2}, \\
+    \operatorname{Pr}\bigl( (X,Y) = (0,1)\bigr) & = 0, \\
+    \operatorname{Pr}\bigl( (X,Y) = (1,0)\bigr) & = 0, \\
+    \operatorname{Pr}\bigl( (X,Y) = (1,1)\bigr) & = \frac{1}{2}.
+\end{aligned}
+\]
+
+This probabilistic state is one in which both \(X\) and \(Y\) are random bits — each is 0 with probability \(\frac{1}{2}\) and 1 with probability \(\frac{1}{2}\) — but the classical states of the two bits always agree. This is an example of a correlation between these systems.
+
+
+
+\end{frame}
+\begin{frame}{Probabilistic State of Two Bits}
+    Probabilistic state for two bits:
+    \[
+    \begin{array}{cccc}
+        \xrightarrow{\text{Probability for state 00}} & \frac{1}{2} & \xrightarrow{\text{Probability for state 01}} & 0 \\
+        \xrightarrow{\text{Probability for state 10}} & 0 & \xrightarrow{\text{Probability for state 11}} & \frac{1}{2}
+    \end{array}
+    \]
+\end{frame}
+
+\begin{frame}{Independence of Systems}
+    Systems \(X\) and \(Y\) are independent if:
+    \[
+    \operatorname{Pr}((\mathsf{X},\mathsf{Y}) = (a,b)) = \operatorname{Pr}(\mathsf{X} = a) \operatorname{Pr}(\mathsf{Y} = b)
+    \]
+\end{frame}
+
+\begin{frame}{Probabilistic State Independence}
+    If \((X, Y)\) has a probabilistic state described by:
+    \[
+    \sum_{(a,b) \in \Sigma\times\Gamma} p_{ab} \vert a b\rangle
+    \]
+    It is independent if there exist probability vectors \(\vert \phi \rangle\) and \(\vert \psi \rangle\) such that:
+    \[
+    p_{ab} = q_a r_b
+    \]
+\end{frame}
+
+% Previous slides...
+
+\section{Probabilistic States and Conditional Probabilities}
+\begin{frame}{Probabilistic States and Conditional Probabilities}
+    \[
+    \vert \psi \rangle = \sum_{(a,b)\in\Sigma\times\Gamma} p_{ab} \vert ab\rangle
+    \]
+
+    Measuring \(X\) alone yields each possible outcome with probabilities
+
+    \[
+    \operatorname{Pr}(\mathsf{X} = a) = \sum_{b\in\Gamma} p_{ab}
+    \]
+
+    Thus, the vector representing the probabilistic state of \(X\) alone is given by
+
+    \[
+    \sum_{a\in\Sigma} \left(\sum_{c\in\Gamma} p_{ac}\right) \vert a\rangle
+    \]
+\end{frame}
+\begin{frame}{Tensor products of vectors}
+
+
+The condition of independence just described can be expressed more succinctly through the notion of a tensor product. Although this is a very general notion that can be defined quite abstractly and applied to a variety of mathematical structures, in the case at hand it can be defined in simple, concrete terms. Given two vectors
+
+\[
+\vert \phi \rangle = \sum_{a\in\Sigma} \alpha_a \vert a \rangle \quad \text{and} \quad \vert \psi \rangle = \sum_{b\in\Gamma} \beta_b \vert b \rangle,
+\]
+
+the tensor product \(\vert \phi \rangle \otimes \vert \psi \rangle\) is a new vector over the joint state set \(\Sigma \times \Gamma\), defined as
+
+\[
+\vert \phi \rangle \otimes \vert \psi \rangle = \sum_{(a,b)\in\Sigma\times\Gamma} \alpha_a \beta_b \vert ab\rangle.
+\]
+
+Equivalently, the vector \(\vert \pi \rangle = \vert \phi \rangle \otimes \vert \psi \rangle\) is defined by the equation
+
+\[
+\langle ab \vert \pi \rangle = \langle a \vert \phi \rangle \langle b \vert \psi \rangle
+\]
+
+being true for every \(a\in\Sigma\) and \(b\in\Gamma\).
+\end{frame}
+\begin{frame}{Tensor products of vectors}
+We can now recast the condition for independence as requiring the probability vector \(\vert \pi \rangle\) of the joint system \((X,Y)\) to be representable as a tensor product
+
+\[
+\vert \pi \rangle = \vert \phi \rangle \otimes \vert \psi \rangle
+\]
+
+of probability vectors \(\vert \phi \rangle\) and \(\vert \psi \rangle\) on each of the subsystems \(X\) and \(Y\). In this situation, it is said that \(\vert \pi \rangle\) is a product state or product vector.
+
+
+
+\end{frame}
+\begin{frame}{Tensor products of matrices}
+
+The tensor product \(M\otimes N\) of the matrices
+
+\[
+M = \sum_{a,b\in\Sigma} \alpha_{ab} \vert a\rangle \langle b\vert
+\]
+
+and
+
+\[
+N = \sum_{c,d\in\Gamma} \beta_{cd} \vert c\rangle \langle d\vert
+\]
+
+is the matrix
+
+\[
+M\otimes N = \sum_{a,b\in\Sigma} \sum_{c,d\in\Gamma} \alpha_{ab} \beta_{cd} \vert ac \rangle \langle bd \vert
+\]
+\end{frame}
+\begin{frame}{Tensor products of matrices}
+Equivalently, \(M\otimes N\) is defined by the equation
+
+\[
+\langle ac \vert M \otimes N \vert bd\rangle = \langle a \vert M \vert b\rangle \langle c \vert N \vert d\rangle
+\]
+
+being true for every selection of \(a,b\in\Sigma\) and \(c,d\in\Gamma\).
+
+An alternative, but equivalent, way to describe \(M\otimes N\) is that it is the unique matrix that satisfies the equation
+
+\[
+(M\otimes N)(\vert\phi\rangle\otimes\vert\psi\rangle) = (M\vert\phi\rangle)\otimes(N\vert\psi\rangle)
+\]
+
+for every possible choice of vectors \(\vert\phi\rangle\) and \(\vert\psi\rangle\). Here we are assuming that the indices of \(\vert\phi\rangle\) correspond to the elements of \(\Sigma\) and the indices of \(\vert\psi\rangle\) correspond to \(\Gamma\).
+
+
+\end{frame}
+
+\begin{frame}{Probabilistic States and Conditional Probabilities}
+    Having obtained a particular outcome \(a\in\Sigma\) of the measurement of \(X\), the probabilistic state of \(Y\) is updated according to the formula for conditional probabilities:
+
+    \[
+    \vert \pi_a \rangle = \frac{\sum_{b\in\Gamma}p_{ab}\vert b\rangle}{\sum_{c\in\Gamma} p_{ac}}
+    \]
+
+    We update the probabilistic state of the joint system \((X,Y)\) to \(\vert a\rangle \otimes \vert\pi_a\rangle\).
+\end{frame}
+
+
+\section{Quantum State Representation}
+
+\begin{frame}{Quantum State Representation}
+    We may use the fact that \(\vert ab\rangle = \vert a\rangle\vert b\rangle\) (for any classical states \(a\) and \(b\)) to instead write
+    \[
+    \frac{1}{\sqrt{2}} \vert 0\rangle\vert 0 \rangle - \frac{1}{\sqrt{6}} \vert 0\rangle\vert 1\rangle + \frac{i}{\sqrt{6}} \vert 1\rangle\vert 0\rangle + \frac{1}{\sqrt{6}} \vert 1\rangle\vert 1\rangle.
+    \]
+
+    We may choose to write the tensor product symbol explicitly like this:
+    \[
+    \frac{1}{\sqrt{2}} \vert 0\rangle\otimes\vert 0 \rangle - \frac{1}{\sqrt{6}} \vert 0\rangle\otimes\vert 1\rangle + \frac{i}{\sqrt{6}} \vert 1\rangle\otimes\vert 0\rangle + \frac{1}{\sqrt{6}} \vert 1\rangle\otimes\vert 1\rangle.
+    \]
+
+    We may subscript the kets to indicate how they correspond to the systems being considered, like this:
+    \[
+    \frac{1}{\sqrt{2}} \vert 0\rangle_{\mathsf{X}}\vert 0 \rangle_{\mathsf{Y}} - \frac{1}{\sqrt{6}} \vert 0\rangle_{\mathsf{X}}\vert 1\rangle_{\mathsf{Y}} + \frac{i}{\sqrt{6}} \vert 1\rangle_{\mathsf{X}}\vert 0\rangle_{\mathsf{Y}} + \frac{1}{\sqrt{6}} \vert 1\rangle_{\mathsf{X}}\vert 1\rangle_{\mathsf{Y}}.
+    \]
+\end{frame}
+\begin{frame}{Quantum State Representation}
+    Of course, we may also write quantum state vectors explicitly as column vectors:
+    \[
+    \begin{pmatrix}
+        \frac{1}{\sqrt{2}}\\[2mm]
+        - \frac{1}{\sqrt{6}}\\[2mm]
+        \frac{i}{\sqrt{6}}\\[2mm]
+        \frac{1}{\sqrt{6}}
+    \end{pmatrix}.
+    \]
+\end{frame}
+\section{Unitary operations}
+\begin{frame}{Unitary operations}
+
+We can represent operations on multiple systems as unitary matrices acting on the state vector of this larger system.
+
+In principle, any unitary matrix whose rows and columns correspond to the classical states of whatever system we're thinking about represents a valid quantum operation—and this holds true for compound systems whose classical state sets happen to be Cartesian products of the classical state sets of the individual systems.
+
+Focusing on two systems, if \(X\) is a system having classical state set \(\Sigma\) and \(Y\) is a system having classical state set \(\Gamma\), then the classical state set of the joint system \((X,Y)\) is \(\Sigma\times\Gamma\)—and therefore the set of operations that can be performed on this joint system are represented by unitary matrices whose rows and columns are placed in correspondence with the set \(\Sigma\times\Gamma\). The ordering of the rows and columns of these matrices is the same as the ordering used for quantum state vectors of the system \((X,Y)\).
+
+
+
+\end{frame}
+\section{The swap operation}
+\begin{frame}{The swap operation}
+
+Suppose that \(X\) and \(Y\) are systems that share the same classical state set \(\Sigma\). The swap operation on the pair \((X,Y)\) is the operation that exchanges the contents of the two systems but otherwise leaves the systems alone (so that \(X\) remains on the left and \(Y\) remains on the right).
+
+We will denote this operation as \(\operatorname{SWAP}\). It operates like this for every choice of classical states \(a,b\in\Sigma\):
+
+\[
+\operatorname{SWAP} \vert a \rangle \vert b \rangle = \vert b \rangle \vert a \rangle.
+\]
+
+One way to write the matrix associated with this operation using the Dirac notation is as follows:
+
+\[
+\operatorname{SWAP} = \sum_{c,d\in\Sigma} \vert c \rangle \langle d \vert \otimes \vert d \rangle \langle c \vert.
+\]
+\end{frame}
+\begin{frame}{The swap operation}
+It may not be immediately clear that this matrix represents \(\operatorname{SWAP}\), but we can check it satisfies the condition \(\operatorname{SWAP} \vert a \rangle \vert b \rangle = \vert b \rangle \vert a \rangle\) for every choice of classical states \(a,b\in\Sigma\).
+
+As a simple example, when \(X\) and \(Y\) are qubits, we find that
+
+\[
+\operatorname{SWAP} = \begin{pmatrix} 1 & 0 & 0 & 0\\ 0 & 0 & 1 & 0\\ 0 & 1 & 0 & 0\\ 0 & 0 & 0 & 1 \end{pmatrix}.
+\]
+
+
+
+\end{frame}
+\begin{frame}{Circuits}
+
+
+\section*{Circuits in Computation}
+
+Circuits are models of computation in which information is carried by wires through a network of gates, which represent operations that transform the information carried by the wires. Here we will discuss two types of circuits:
+\begin{itemize}
+  \item{ Boolean Circuits}
+\end{itemize}
+Boolean circuits involve wires carrying binary values, and the gates represent Boolean logic operations.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{boolean_circuit.jpg}
+    \caption{Example of a Boolean Circuit}
+    \label{fig:boolean_circuit}
+\end{figure}
+\end{frame}
+\begin{frame}{Circuits}
+\begin{itemize}
+  \item{ Quantum Circuits}
+\end{itemize}
+
+Quantum circuits introduce the principles of quantum computing, where information is carried by quantum bits (qubits) and operations are represented by quantum gates.The operation is done from Left to right
+
+% Add images section
+\section*{Images}
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{quantum_circuit.jpg}
+    \caption{Example of a Quantum Circuit}
+    \label{fig:quantum_circuit}
+\end{figure}
+\end{frame}
+\begin{frame}{Quantum Circuit}
+\begin{itemize}
+\item{Multi Qubit Quantum Circuit}
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Multi Qubit Quantum Circuit.jpg}
+    \caption{Example of a Multi Qubit Quantum Circuit}
+    \label{fig:Multi Qubit Quantum Circuit}
+\end{figure}
+\end{frame}
+\begin{frame}{Quantum Circuit}
+
+\section*{Quantum Circuit Operations}
+\begin{itemize}
+\item{Step 1: Hadamard Operation on Y}
+\end{itemize}
+The first operation is a Hadamard operation on \(Y\):
+
+\[
+H_Y = \frac{1}{\sqrt{2}} \begin{bmatrix}
+1 & 1 \\
+1 & -1
+\end{bmatrix}
+\]
+\begin{itemize}
+\item{Step 2: Controlled-NOT Operation}
+\end{itemize}
+The second operation is the controlled-NOT operation, where \(Y\) is the control and \(X\) is the target:
+
+\[
+\text{CNOT}_{YX} = \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0
+\end{bmatrix}
+\]
+\end{frame}
+
+\begin{frame}{Quantum Circuit}
+For reference, the Hadamard gate is represented as:
+
+\[
+H = \frac{1}{\sqrt{2}} \begin{bmatrix}
+1 & 1 \\
+1 & -1
+\end{bmatrix}
+\]
+
+\begin{itemize}
+\item{Single Qubit Gates}
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{lkj.jpg}
+    \caption{Example of a Single Qubit Gates}
+    \label{fig:Single Qubit Gates}
+\end{figure}
+\end{frame}
+\begin{frame}{Quantum Circuit}
+\begin{itemize}
+\item{Multiple Qubit Gates}
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{poi.jpg}
+    \caption{Example of a Multiple Qubit Gates}
+    \label{fig:Multiple Qubit Gates}
+\end{figure}
+\end{frame}
+\begin{frame}{Inner Product}
+
+
+\section*{Inner Products of Vectors}
+
+If we have a column vector representing a quantum state:
+
+\[
+\vert \psi \rangle = \begin{pmatrix} \alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_n \end{pmatrix},
+\]
+
+the corresponding bra vector is the conjugate transpose of this vector:
+
+\[
+\langle \psi \vert = (\vert \psi \rangle)^\dagger = \begin{pmatrix} \overline{\alpha_1} & \overline{\alpha_2} & \cdots & \overline{\alpha_n} \end{pmatrix}. \tag{1}
+\]
+
+Alternatively, if we express a column vector as a ket with a classical state set \(\Sigma\):
+
+\[
+\vert \psi \rangle = \sum_{a\in\Sigma} \alpha_a \vert a \rangle,
+\]
+\end{frame}
+\section{Inner Product}
+\begin{frame}{Inner Product}
+then the corresponding row (or bra) vector is the conjugate transpose:
+
+\[
+\langle \psi \vert = \sum_{a\in\Sigma} \overline{\alpha_a} \langle a \vert. \tag{2}
+\]
+
+The product of a bra vector and a ket vector results in a scalar:
+
+\[
+\langle \psi \vert \phi \rangle = \langle \psi \vert \vert \phi \rangle = \sum_{a\in\Sigma} \overline{\alpha_a} \beta_a,
+\]
+
+where \(\vert \phi \rangle = \sum_{b\in\Sigma} \beta_b \vert b \rangle\).
+
+The inner product between vectors \(\vert \psi \rangle\) and \(\vert \phi \rangle\) is given by:
+
+\[
+\langle \psi \vert \phi \rangle = \sum_{a\in\Sigma} \overline{\alpha_a} \beta_a.
+\]
+
+\end{frame}
+\begin{frame}{Inner Product}
+\begin{itemize}
+\item{Relationship to the Euclidean Norm}
+\end{itemize}
+The inner product of a vector with itself is related to the Euclidean norm:
+
+\[
+\langle \psi \vert \psi \rangle = \sum_{a\in\Sigma} \overline{\alpha_a} \alpha_a = \sum_{a\in\Sigma} \vert \alpha_a \vert^2 = \bigl\| \vert \psi \rangle \bigr\|^2.
+\]
+
+Thus, the Euclidean norm of a vector can be expressed as:
+
+\[
+\bigl\| \vert \psi \rangle \bigr\| = \sqrt{\langle \psi \vert \psi \rangle}.
+\]
+
+The Euclidean norm is always a nonnegative real number, and it is equal to zero if and only if \(\vert \psi \rangle = 0\).
+\end{frame}
+\begin{frame}{Conjugate symmetry}
+
+For any two vectors
+
+\[
+\vert \psi \rangle = \sum_{a\in\Sigma} \alpha_a \vert a \rangle \quad\text{and}\quad \vert \phi \rangle = \sum_{b\in\Sigma} \beta_b \vert b \rangle,
+\]
+
+we have
+
+\[
+\langle \psi \vert \phi \rangle = \sum_{a\in\Sigma} \overline{\alpha_a} \beta_a \quad\text{and}\quad \langle \phi \vert \psi \rangle = \sum_{a\in\Sigma} \overline{\beta_a} \alpha_a,
+\]
+
+and therefore
+
+\[
+\overline{\langle \psi \vert \phi \rangle} = \langle \phi \vert \psi \rangle.
+\]
+\end{frame}
+\begin{frame}{Linearity in the second argument}
+Let us suppose that \(\vert \psi \rangle, \vert \phi_1 \rangle, \vert \phi_2 \rangle\) are vectors and \(\alpha_1, \alpha_2\) are complex numbers. If we define a new vector
+
+\[
+\vert \phi \rangle = \alpha_1 \vert \phi_1 \rangle + \alpha_2 \vert \phi_2 \rangle,
+\]
+
+then
+
+\[
+\langle \psi \vert \phi \rangle = \langle \psi \vert (\alpha_1 \vert \phi_1 \rangle + \alpha_2 \vert \phi_2 \rangle) = \alpha_1 \langle \psi \vert \phi_1 \rangle + \alpha_2 \langle \psi \vert \phi_2 \rangle.
+\]
+
+That is to say, the inner product is linear in the second argument. This can be verified either through the formulas above or simply by noting that matrix multiplication is linear in each argument (and specifically in the second argument).
+\end{frame}
+\begin{frame}{Linearity in the second argument}
+Combining this fact with conjugate symmetry reveals that the inner product is conjugate linear in the first argument. That is, if \(\vert \psi_1 \rangle, \vert \psi_2 \rangle, \vert \phi \rangle\) are vectors and \(\alpha_1, \alpha_2\) are complex numbers, and we define
+
+\[
+\vert \psi \rangle = \alpha_1 \vert \psi_1 \rangle + \alpha_2 \vert \psi_2 \rangle,
+\]
+
+then
+
+\[
+\langle \psi \vert \phi \rangle = (\overline{\alpha_1} \langle \psi_1 \vert + \overline{\alpha_2} \langle \psi_2 \vert) \vert \phi \rangle = \overline{\alpha_1} \langle \psi_1 \vert \phi \rangle + \overline{\alpha_2} \langle \psi_2 \vert \phi \rangle.
+\]
+
+\end{frame}
+\section{The Cauchy–Schwarz inequality}
+\begin{frame}{The Cauchy–Schwarz inequality}
+
+For every choice of vectors \(\vert \phi \rangle\) and \(\vert \psi \rangle\) having the same number of entries, we have
+
+\[
+\bigl\vert \langle \psi \vert \phi \rangle\bigr| \leq \bigl\| \vert\psi \rangle \bigr\| \bigl\| \vert \phi \rangle \bigr\|.
+\]
+\end{frame}
+\section{Orthogonal and orthonormal sets}
+\begin{frame}{Orthogonal and orthonormal sets}
+Two vectors $\vert \phi \rangle$ and $\vert \psi \rangle$ are said to be orthogonal if their inner product is zero:
+\[
+\langle \psi \vert \phi \rangle = 0.
+\]
+
+Orthogonal Set:
+A set of vectors $\{\vert \psi_1 \rangle, \ldots, \vert \psi_m \rangle\}$ is called an orthonormal set if it is an orthogonal set and, in addition, every vector in the set is a unit vector. Alternatively, this set is an orthonormal set if
+\[
+\langle \psi_j \vert \psi_k \rangle = 
+\begin{cases}
+1 & \text{if } j = k, \\
+0 & \text{if } j \neq k.
+\end{cases}
+\]
+
+\end{frame}
+\begin{frame}{Orthonormal sets and unitary matrices}
+Orthonormal sets of vectors are closely connected with unitary matrices. One way to express this connection is to say that the following three statements are logically equivalent (meaning that they are all true or all false) for any choice of a square matrix $U$:
+
+\begin{enumerate}
+    \item The matrix $U$ is unitary (i.e., $U^\dagger U = U U^\dagger = I$).
+    \item The rows of $U$ form an orthonormal set.
+    \item The columns of $U$ form an orthonormal set.
+\end{enumerate}
+\end{frame}
+\section{Projection Matrix}
+\begin{frame}{Projection Matrix}
+A square matrix $\Pi$ is called a projection if it satisfies two properties:
+
+\begin{enumerate}
+    \item $\Pi = \Pi^\dagger$.
+    \item $\Pi^2 = \Pi$.
+\end{enumerate}
+\end{frame}
+\section{Projective measurements}
+\begin{frame}{Projective measurements}
+Projective measurements are measurements that are described by a collection of projections whose sum is equal to the identity matrix. In symbols, a collection $\{\Pi_1, \ldots, \Pi_m\}$ of projection matrices describes a projective measurement if
+\[
+\Pi_1 + \ldots + \Pi_m = \mathbb{I}.
+\]
+\end{frame}
+\section{Limitations on quantum information}
+\begin{frame}{Limitations on quantum information}
+1) Irrelevance of global phases:
+Suppose that $\vert \psi \rangle$ and $\vert \phi \rangle$ are unit vectors representing quantum states of some system, and assume moreover that there exists a complex number $\alpha$ which satisfies
+\[
+\vert \phi \rangle = \alpha \vert \psi \rangle
+\]
+Then these two unit vectors will be called that they are differed by a global phase. It requires that $\vert \alpha \vert = 1$ or alternatively, $\alpha = e^{i\theta}$ for some real number $\theta$.
+
+For example, $\vert - \rangle = \frac{1}{\sqrt{2}} \vert 0 \rangle - \frac{1}{\sqrt{2}} \vert 1 \rangle$ and $- \vert - \rangle = -\frac{1}{\sqrt{2}} \vert 0 \rangle + \frac{1}{\sqrt{2}} \vert 1 \rangle$.
+
+\end{frame}
+\begin{frame}{Limitations on quantum information}
+2) No-cloning theorem :
+Let \(X\) and \(Y\) be systems sharing the same classical state set \(\Sigma\) having at least two elements. There does not exist a quantum state \(\vert \phi \rangle\) of \(Y\) and a unitary operation \(U\) on the pair \((X,Y)\) such that
+\[
+U(\vert \psi \rangle \otimes \vert \phi \rangle) = \vert \psi \rangle \otimes \vert \psi \rangle
+\]
+That means there is no unitary operation by which we can copy a quantum state.
+\end{frame}
+\begin{frame}{Limitations on quantum information}
+Proof:
+The vector we get after the unitary operation \(U\)
+
+
+
+\[
+U\left(\frac{1}{\sqrt{2}} \vert a \rangle + \frac{1}{\sqrt{2}} \vert b \rangle \otimes \vert \phi \rangle\right) = \frac{1}{\sqrt{2}} \vert a \rangle \otimes \vert a \rangle + \frac{1}{\sqrt{2}} \vert b \rangle \otimes \vert b \rangle.
+\]
+\[
+U\left(\frac{1}{\sqrt{2}} \vert a \rangle + \frac{1}{\sqrt{2}} \vert b \rangle \otimes \vert \phi \rangle\right) \neq \frac{1}{\sqrt{2}} \vert a \rangle \otimes \vert a \rangle + \frac{1}{\sqrt{2}} \vert b \rangle \otimes \vert b \rangle
+\]
+\end{frame}
+\begin{frame}{Limitations on quantum information}
+Controlled-NOT gate can clone a few certain quantum state vectors, but it is inefficient for all the vectors. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{abc.jpg}
+    \caption{controlled-NOT operation}
+    \label{fig:controlled-NOT operation}
+\end{figure}
+\textbf{3) Non-orthogonal states cannot be perfectly discriminated:} If we have two quantum states \(\vert \psi \rangle\) and \(\vert \phi \rangle\) that are not orthogonal, which means that \(\langle \phi \vert \psi \rangle \neq 0\), then it's impossible to tell them apart perfectly. If we do have a way to discriminate two states perfectly, without any error, then they must be orthogonal.
+
+\end{frame}
+\section{Teleportation}
+\begin{frame}{Teleportation}
+\textbf{1. Teleportation}
+
+Quantum teleportation, or just teleportation for short, is a protocol where a sender (Alice) transmits a qubit to a receiver (Bob) by making use of a shared entangled quantum state (one e-bit, to be specific) along with two bits of classical communication.
+
+\end{frame}
+\begin{frame}{Teleportation}
+\textbf{1.1 Protocol}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{asdf.jpg}
+   
+\end{figure}
+\textbf{1. Alice's Operations:}
+
+\begin{enumerate}
+    \item Alice performs a controlled-NOT operation on the pair $(A,Q)$, with $Q$ being the control and $A$ being the target. She then performs a Hadamard operation on $Q$.
+    
+    \item Alice measures both $A$ and $Q$ with respect to a standard basis measurement. Let $a$ be the outcome of the measurement of $A$, and $b$ be the outcome of the measurement of $Q$.
+\end{enumerate}
+\end{frame}
+\begin{frame}{Teleportation}
+\textbf{2. Bob's Operations:}
+
+Bob receives $a$ and $b$ from Alice and performs the following conditional operations:
+
+\begin{itemize}
+    \item If $a=1$, then Bob performs a bit flip (or $X$ gate) on his qubit $B$.
+    
+    \item If $b=1$, then Bob performs a phase flip (or $Z$ gate) on his qubit $B$.
+\end{itemize}
+
+That is, conditioned on $ab$ being 00, 01, 10, or 11, Bob performs one of the operations $I$, $Z$, $X$, or $ZX$ on the qubit $B$.
+
+\textbf{1.2 Conclusion}
+
+\begin{enumerate}
+    \item It is not an application of quantum information; it's a protocol for performing quantum communication.
+    
+    \item It is reasonable to speculate that teleportation could one day become a standard way to communicate quantum information, perhaps through a process known as entanglement distillation (Process to convert large noisy e-bits into small high-quality e-bits).
+\end{enumerate}
+
+\end{frame}
+\begin{frame}{Superdense coding}
+\textbf{2. Superdense Coding}
+
+Superdense coding is a protocol that, in some sense, achieves a complementary aim to teleportation. Rather than allowing for the transmission of one qubit using two classical bits of communication (at the cost of one e-bit of entanglement), it allows for the transmission of two classical bits using one qubit of quantum communication (again, at the cost of one e-bit of entanglement).
+
+\textbf{Note:} Holevo's theorem implies that without the use of a shared entangled state, it is impossible to communicate more than one bit of classical information by sending a single qubit.
+\end{frame}
+\begin{frame}{Superdense coding}
+\textbf{2.1 Protocol}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{pro.jpg}
+   
+\end{figure}
+\end{frame}
+\begin{frame}{Superdense coding}    
+
+
+\textbf{In words, here is what Alice does:}
+\begin{enumerate}
+    \item If $d=1$, Alice performs a Z gate on her qubit A (and if $d=0$, she does not).
+    \item If $c=1$, Alice performs an X gate on her qubit A (and if $c=0$, she does not).
+\end{enumerate}
+
+\textbf{Now the part of Bob:}
+What Bob does when he receives the qubit A is to first perform a controlled-NOT gate, with A being the control and B being the target, and then he applies a Hadamard gate to A. He then measures B to obtain $c$ and A to obtain $d$, with standard basis measurements in both cases.
+
+\textbf{2.2 Remarks}
+\begin{enumerate}[a)]
+    \item Superdense coding seems unlikely to be useful in a practical sense.
+    \item Together, teleportation and superdense coding establish an equivalence:
+    \[
+    \begin{array}{c}
+        \text{2 bits of classical communication} \\
+        \hline
+        \text{\ \ \ }1 e-bit needed in both cases\ \ \ \ \\
+        \hline
+        \text{1 bit of quantum communication}
+    \end{array}
+    \]
+\end{enumerate}
+
+
+\end{frame}
+\section{The CHSH Game}
+\begin{frame}{The CHSH Game}
+
+
+
+\textbf{3. The CHSH Game}
+
+It is not a protocol; it's a game or game theory in the sense of mathematical abstraction.
+
+\textbf{3.1 Nonlocal Game}
+
+\begin{enumerate}
+    \item Description of the nonlocal game goes here.
+    \item You can add more details as needed.
+\end{enumerate}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{mlp.jpg}
+   
+\end{figure}
+
+
+\end{frame}    
+
+\begin{frame}{The CHSH Game}
+
+
+It is a cooperative game where two players work together to achieve a particular outcome, and there is a referee who strictly follows the rules. They can prepare for the game however they choose, but once the game starts, they are forbidden from communicating. We might imagine the game taking place in a secure facility of some sort, as if the referee is playing the role of a detective, and Alice and Bob are suspects being interrogated in different rooms.
+
+The way a nonlocal game works is that the referee first asks each of them a question. We'll use the letter \(x\) to refer to the First one’s question and \(y\) to refer to the Second one’s question. Here, we're thinking of \(x\) and \(y\) as being classical states, and in the CHSH game, \(x\) and \(y\) are bits. Questions are selected randomly. Alice and Bob either win or lose depending on whether or not the pair of answers (\(a,b\)) is deemed correct for the pair of questions (\(x,y\)) according to some fixed set of rules.
+\end{frame}
+\begin{frame}{The CHSH Game}
+\textbf{3.2 General Description}
+
+\begin{enumerate}
+    \item The questions and answers are all bits: \(x, y, a, b \in \{0,1\}\).
+    \item The referee chooses the questions (\(x, y\)) uniformly at random. That is, each of the four possibilities, \((0,0)\), \((0,1)\), \((1,0)\), and \((1,1)\), is selected with probability \(1/4\).
+    \item The answers (\(a, b\)) win for the questions (\(x, y\)) if \(a \oplus b = x \land y\) and lose otherwise. The following table expresses this rule by listing the winning and losing conditions on the answers (\(a, b\)) for each pair of questions (\(x, y\)).
+
+\begin{center}
+    \begin{tabular}{c|c|c}
+        (\(x,y\)) & Win & Lose \\
+        \hline
+        (0,0) & \(a=b\) & \(a \neq b\) \\
+        (0,1) & \(a=b\) & \(a \neq b\) \\
+        (1,0) & \(a=b\) & \(a \neq b\) \\
+        (1,1) & \(a \neq b\) & \(a=b\) \\
+    \end{tabular}
+\end{center}
+
+\end{enumerate}
+
+\end{frame}
+
+\end{document}
