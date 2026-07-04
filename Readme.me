@@ -1,26 +1,23 @@
-#Quantum Computing
-(Adding Implementations/Simulation of Quantum Algorithms)
+# Quantum Computing Algorithms
 
+A curated collection of quantum computing algorithms with implementations, simulations, mathematical derivations, and documentation.
 
-A comprehensive open-source collection of **Quantum Computing Algorithms** implemented using modern quantum computing frameworks. This repository is designed for **students, researchers, educators, and quantum computing enthusiasts** who want to learn, experiment with, and contribute to quantum algorithms.
+This repository serves as a personal learning archive while also providing a structured resource for students, researchers, and developers interested in quantum computing. As I continue learning the field, new algorithms, techniques, and experiments will be added along with detailed explanations and reproducible simulations.
 
-The goal of this project is to provide **well-documented implementations**, mathematical explanations, circuit visualizations, and practical examples of the most important algorithms in quantum computing.
+## Motivation
 
----
+The primary objectives of this repository are to:
 
-## 🚀 Features
-
-- 📚 Collection of fundamental and advanced quantum algorithms
-- 💻 Clean, modular, and well-documented code
-- 📖 Mathematical background and algorithm explanations
-- 🔬 Quantum circuit visualizations
-- ⚡ Implementations using popular quantum computing frameworks
-- 🧪 Example notebooks and demonstrations
-- 🌍 Open-source and community-driven
+- Document my journey of learning quantum computing.
+- Implement quantum algorithms from research papers and textbooks.
+- Understand the mathematical foundations behind each algorithm.
+- Provide well-documented implementations with reproducible simulations.
+- Compare implementations across different quantum computing frameworks.
+- Build a comprehensive reference for future research and development.
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 Quantum-Computing-Algorithms/
@@ -38,16 +35,14 @@ Quantum-Computing-Algorithms/
 │   ├── quantum_walk/
 │   ├── qaoa/
 │   ├── vqe/
-│   ├── amplitude_amplification/
-│   ├── amplitude_estimation/
-│   ├── quantum_counting/
 │   ├── teleportation/
 │   ├── superdense_coding/
 │   ├── swap_test/
 │   └── ...
 │
 ├── notebooks/
-├── docs/
+├── documentation/
+├── simulations/
 ├── assets/
 ├── requirements.txt
 ├── LICENSE
@@ -56,100 +51,99 @@ Quantum-Computing-Algorithms/
 
 ---
 
-# 📖 Algorithms Included
+## Algorithms
 
-### 🔍 Search Algorithms
+The repository currently includes or plans to include implementations of:
+
+### Quantum Search
 
 - Grover's Search Algorithm
 - Quantum Counting
 - Amplitude Amplification
+- Amplitude Estimation
 
-### 🔢 Number Theory
+### Number Theory
 
 - Shor's Factoring Algorithm
 - Quantum Fourier Transform (QFT)
 - Quantum Phase Estimation (QPE)
 
-### 📐 Linear Algebra
+### Oracle-Based Algorithms
+
+- Deutsch Algorithm
+- Deutsch–Jozsa Algorithm
+- Bernstein–Vazirani Algorithm
+- Simon's Algorithm
+
+### Linear Algebra
 
 - HHL Algorithm
 - Quantum Linear System Solvers
 
-### 📡 Communication Protocols
+### Variational Algorithms
 
-- Quantum Teleportation
-- Superdense Coding
-- Quantum Key Distribution *(Coming Soon)*
-
-### 🎯 Oracle-Based Algorithms
-
-- Deutsch Algorithm
-- Deutsch-Jozsa Algorithm
-- Bernstein-Vazirani Algorithm
-- Simon's Algorithm
-
-### ⚙️ Optimization
-
-- Quantum Approximate Optimization Algorithm (QAOA)
 - Variational Quantum Eigensolver (VQE)
+- Quantum Approximate Optimization Algorithm (QAOA)
 
-### 🚶 Quantum Walks
+### Quantum Walks
 
 - Discrete-Time Quantum Walk
 - Continuous-Time Quantum Walk
 - Lackadaisical Quantum Walk
 - Szegedy Quantum Walk
 
-### 📚 Miscellaneous
+### Quantum Communication
+
+- Quantum Teleportation
+- Superdense Coding
+
+### Other Algorithms
 
 - Swap Test
-- Amplitude Estimation
 - Quantum Fourier Sampling
-- Random Quantum Circuit Generation
+- Quantum State Preparation
+- Quantum Random Number Generation
 
 ---
 
-## 🛠️ Supported Frameworks
+## Frameworks
 
-This repository includes implementations using:
+Implementations may be provided using:
 
 - Qiskit
 - CUDA-Q
-- Will try to add in some other languages in future 
+- PennyLane
+- Cirq
+- Qulacs
+- NumPy-based simulators
 
 ---
 
-## 📦 Installation
+## Documentation
+
+Each algorithm aims to include:
+
+- Problem statement
+- Mathematical background
+- Algorithm description
+- Quantum circuit
+- Implementation
+- Simulation results
+- Complexity analysis
+- References
+
+---
+
+## Installation
 
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/Quantum_Computing.git
-
+git clone https://github.com/your-username/Quantum-Computing-Algorithms.git
 cd Quantum-Computing-Algorithms
 ```
 
-Create a virtual environment:
-
-```bash
-python -m venv .venv
-```
-
-Activate the environment:
-
-### Linux/macOS
-
-```bash
-source .venv/bin/activate
-```
-
-### Windows
-
-```powershell
-.venv\Scripts\activate
-```
-
-Install the dependencies:
+Install the required dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -157,63 +151,29 @@ pip install -r requirements.txt
 
 ---
 
+## Roadmap
+
+- Grover's Algorithm
+- Shor's Algorithm
+- Quantum Fourier Transform
+- Quantum Phase Estimation
+- HHL Algorithm
+- Quantum Walk Algorithms
+- Variational Quantum Algorithms
+- Quantum Machine Learning Algorithms
+- Quantum Error Correction
+- Quantum Cryptography
+- Quantum Chemistry Algorithms
+- Hardware execution on real quantum devices
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome!
-
-You can contribute by:
-
-- Adding new quantum algorithms
-- Improving existing implementations
-- Writing mathematical explanations
-- Creating Jupyter notebooks
-- Optimizing quantum circuits
-- Supporting additional quantum frameworks
-- Fixing bugs and improving documentation
-
-Please open an **Issue** or submit a **Pull Request**.
+Contributions, suggestions, and discussions are welcome. If you find an issue or would like to contribute an implementation or improve the documentation, please open an issue or submit a pull request.
 
 ---
 
-## 🗺️ Roadmap
+## License
 
-- [x] Grover's Algorithm
-- [x] Shor's Algorithm
-- [x] Quantum Fourier Transform
-- [x] HHL Algorithm
-- [ ] Quantum Machine Learning Algorithms
-- [ ] Quantum Error Correction
-- [ ] Quantum Cryptography
-- [ ] Quantum Chemistry Algorithms
-- [ ] Tensor Network Simulations
-- [ ] Fault-Tolerant Quantum Computing
-- [ ] Hardware Execution Examples
-
----
-
-## 📚 Learning Resources
-
-This repository is intended for:
-
-- Students & Quantum Computing Enthusiasts like me
-
----
-
-## ⭐ Support
-
-If you find this project useful, please consider giving it a **⭐ Star**. Your support helps improve the repository and makes it easier for others to discover.
-
----
-
-## 📜 License
-
-This project is licensed under the **MIT License**.
-
----
-
-## 🌟 Vision
-
-> **To build a comprehensive, open-source library of quantum computing algorithms that bridges theory and implementation, making quantum computing accessible to everyone.**
+This project is licensed under the MIT License.
