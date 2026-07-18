@@ -24,6 +24,9 @@ Quantum-Computing-Algorithms/
 │
 ├── algorithms/
 │   ├── grover/
+|   |   ├── reflection oporator
+|   |   ├── Grover's algorithm with Ancilla Qubit
+|   |   ├── Grover's algorithm without Ancilla Qubit
 │   ├── shor/
 │   ├── deutsch/
 │   ├── deutsch_jozsa/
